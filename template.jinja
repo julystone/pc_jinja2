@@ -1,0 +1,37 @@
+{{ temp['base_import'] }}
+from module.map.map_base import CampaignMap
+from module.map.map_grids import SelectedGrids, RoadGrids
+from module.logger import logger
+{% if temp['x1_flag'] %}
+from .{{ MapData.chap | lower }}1 import Config as ConfigBase
+{% endif %}
+
+MAP = CampaignMap("{{ MapData.chapter_name }}")
+MAP.shape = {{ MapData.shape }}
+MAP.camera_data = {{ temp['camera_data'] }}
+MAP.camera_data_spawn_point = {{ temp['camera_sp'] }}
+{% if MapData.MAP_HAS_PORTAL %}
+MAP.portal_data = {{ MapData.portal }}
+{% endif %}
+{# map_data #}
+MAP.map_data = """
+{% for y in range(MapData.shape[1] + 1) %}
+    {% for x in range(MapData.shape[0] + 1) %}
+    {{ MapData.map_data[(x, y)] | join }}
+    {% endfor %}
+{% endfor %}
+    """
+{# map_data #}
+MAP.map_data = """
+{% for y in range(MapData.shape[1] + 1) %}
+    {% for x in range(MapData.shape[0] + 1) %}
+    {{ MapData.map_data[(x, y)] | join }}
+    {% endfor %}
+{% endfor %}
+    """
+
+{% for loca in temp['camera_data'] %}
+
+{% endfor %}
+MAP.camera_data = {{ MapData.camera_data }}
+MAP.camera_data_spawn_point = {{ MapData.shape }}
